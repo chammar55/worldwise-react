@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./CityItem.module.css";
+import { useCities } from "../Contexts/CitiesContext";
 
 const formatDate = (
   date // using to format data
@@ -11,6 +12,7 @@ const formatDate = (
   }).format(new Date(date));
 
 function CityItem({ city }) {
+  const { currentCity } = useCities();
   const { cityName, emoji, date, id, position } = city;
 
   return (
@@ -18,7 +20,9 @@ function CityItem({ city }) {
       {/* this link will send all the below data in URL from where we are accessing it  */}
       {/* we are accessing data in Map.jsx and City.jsx */}
       <Link
-        className={styles.cityItem}
+        className={`${styles.cityItem} ${
+          id === currentCity.id ? styles["cityItem--active"] : ""
+        }`}
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
       >
         <span className={styles.emoji}>{emoji}</span>
